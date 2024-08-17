@@ -1,0 +1,182 @@
+{
+  "version": "0.0.1",
+  "display": {
+    "width": 1080,
+    "height": 1920,
+    "backgroundColor": "#000000"
+  },
+  "timeline": {
+    "startTime": 123.926,
+    "fps": 30,
+    "layers": [
+      {
+        "id": "70a86621-284a-456c-9e42-65fc1f587228",
+        "isEnabled": true,
+        "isMuted": false,
+        "clips": [
+          {
+            "id": "1396da64-e47e-4cd0-9332-c04f36424456",
+            "type": "video",
+            "mediaDataId": "604a47a9-7e29-4cc6-a8aa-82ea1be28e05",
+            "subtitlesOffset": 0,
+            "startTime": 0,
+            "duration": 21.133333333333333,
+            "leftTrim": 0,
+            "rightTrim": 0,
+            "filters": [],
+            "effects": [],
+            "warpMode": "empty",
+            "style": {
+              "clipId": "1396da64-e47e-4cd0-9332-c04f36424456",
+              "mediaDataId": "604a47a9-7e29-4cc6-a8aa-82ea1be28e05",
+              "alpha": 1,
+              "rotation": 0,
+              "position": [540, 960],
+              "scale": [1.776099768297039, 1.7760985523437762],
+              "zIndex": 0,
+              "cornerRadius": [0, 0, 0, 0],
+              "relativeCornerRadius": false
+            }
+          }
+        ],
+        "transitions": []
+      },
+      {
+        "id": "c9027c1f-0672-4532-b5b8-b3a05a3c768c",
+        "isEnabled": true,
+        "isMuted": false,
+        "clips": [
+          {
+            "id": "27f6dd1a-1352-4fa3-af59-2b58a7bc5fe0",
+            "type": "image",
+            "mediaDataId": "613e66b5-a55a-4cef-bc24-fdd5adbb7a8f",
+            "subtitlesOffset": 0,
+            "startTime": 0,
+            "duration": 1,
+            "leftTrim": 0,
+            "rightTrim": -3.1,
+            "filters": [],
+            "effects": [],
+            "warpMode": "empty",
+            "style": {
+              "clipId": "27f6dd1a-1352-4fa3-af59-2b58a7bc5fe0",
+              "mediaDataId": "613e66b5-a55a-4cef-bc24-fdd5adbb7a8f",
+              "alpha": 1,
+              "rotation": 0,
+              "position": [540, 960],
+              "scale": [0.2487343316003329, 0.2487340286510973],
+              "zIndex": 0,
+              "cornerRadius": [0, 0, 0, 0],
+              "relativeCornerRadius": false
+            }
+          },
+          {
+            "id": "b55f03d5-a52b-4ee6-93fc-f7abdf98ddfa",
+            "type": "image",
+            "mediaDataId": "467ba965-b904-4559-8ccf-4ccffe7e24a0",
+            "subtitlesOffset": 0,
+            "startTime": 4.1,
+            "duration": 1,
+            "leftTrim": 0,
+            "rightTrim": -2.8333333333333335,
+            "filters": [
+              {
+                "id": "7ebd303f-317f-4e0a-a4d8-e005ae1114a4",
+                "sourceId": "grayscale",
+                "options": {
+                  "lutUrl": "https://cdn.rendley.com/sdk/assets/filters/grayscale/lut.png"
+                }
+              }
+            ],
+            "effects": [],
+            "warpMode": "empty",
+            "style": {
+              "clipId": "b55f03d5-a52b-4ee6-93fc-f7abdf98ddfa",
+              "mediaDataId": "467ba965-b904-4559-8ccf-4ccffe7e24a0",
+              "alpha": 1,
+              "rotation": 0,
+              "position": [540, 960],
+              "scale": [0.15782122428071382, 0.15782122428071355],
+              "zIndex": 0,
+              "cornerRadius": [0, 0, 0, 0],
+              "relativeCornerRadius": false
+            }
+          }
+        ],
+        "transitions": [
+          {
+            "id": "56c24662-c45f-4eab-b9b5-5ee78f1b85da",
+            "name": "glitchmemories",
+            "startClipId": "27f6dd1a-1352-4fa3-af59-2b58a7bc5fe0",
+            "endClipId": "b55f03d5-a52b-4ee6-93fc-f7abdf98ddfa",
+            "inDuration": 1,
+            "outDuration": 1,
+            "transitionSrc": "// author: Gunnar Roth\n// based on work from natewave\n// license: MIT\nvec4 transition(vec2 p) {\n  vec2 block = floor(p.xy / vec2(16));\n  vec2 uv_noise = block / vec2(64);\n  uv_noise += floor(vec2(progress) * vec2(1200.0, 3500.0)) / vec2(64);\n  vec2 dist = progress > 0.0 ? (fract(uv_noise) - 0.5) * 0.3 *(1.0 -progress) : vec2(0.0);\n  vec2 red = p + dist * 0.2;\n  vec2 green = p + dist * .3;\n  vec2 blue = p + dist * .5;\n\n  return vec4(mix(getFromColor(red), getToColor(red), progress).r,mix(getFromColor(green), getToColor(green), progress).g,mix(getFromColor(blue), getToColor(blue), progress).b,1.0);\n}",
+            "type": "transition"
+          }
+        ]
+      },
+      {
+        "id": "c969d0f9-5bf4-47d0-a154-407c6725165f",
+        "isEnabled": true,
+        "isMuted": false,
+        "clips": [
+          {
+            "id": "7697b91c-8c00-45ed-a833-5fd34ac0a1d9",
+            "type": "text",
+            "subtitlesOffset": 0,
+            "startTime": 6.566666666666666,
+            "duration": 1,
+            "leftTrim": 0,
+            "rightTrim": -2.066666666666667,
+            "filters": [],
+            "effects": [],
+            "warpMode": "empty",
+            "style": {
+              "clipId": "7697b91c-8c00-45ed-a833-5fd34ac0a1d9",
+              "alpha": 1,
+              "rotation": 0,
+              "position": [540, 960],
+              "scale": [1, 1],
+              "zIndex": 0,
+              "cornerRadius": [0, 0, 0, 0],
+              "relativeCornerRadius": false,
+              "fontSize": 100,
+              "color": "#FFFFFF",
+              "fontWeight": "400",
+              "fontFamily": "Arial",
+              "textAlign": "justify",
+              "fontStyle": "normal",
+              "backgroundColor": null
+            },
+            "text": "Hello World"
+          }
+        ],
+        "transitions": []
+      }
+    ]
+  },
+  "library": {
+    "media": [
+      {
+        "id": "604a47a9-7e29-4cc6-a8aa-82ea1be28e05",
+        "type": "video",
+        "filename": "1409899-hd_1920_1080_25fps.mp4",
+        "permanentUrl": "https://videos.pexels.com/video-files/1409899/1409899-hd_1920_1080_25fps.mp4"
+      },
+      {
+        "id": "613e66b5-a55a-4cef-bc24-fdd5adbb7a8f",
+        "type": "image",
+        "filename": "pexels-photo-27786532.jpeg",
+        "permanentUrl": "https://images.pexels.com/photos/27786532/pexels-photo-27786532.jpeg"
+      },
+      {
+        "id": "467ba965-b904-4559-8ccf-4ccffe7e24a0",
+        "type": "image",
+        "filename": "pexels-photo-27774125.jpeg",
+        "permanentUrl": "https://images.pexels.com/photos/27774125/pexels-photo-27774125.jpeg"
+      }
+    ],
+    "subtitles": []
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "rendley-sdk-ssr",
+  "version": "1.0.0",
+  "description": "An example of how to use the Rendley SDK for SSR",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "nodemon src/index.js"
+  },
+  "author": "",
+  "dependencies": {
+    "@rendley/sdk": "1.0.7",
+    "dotenv": "16.4.5",
+    "express": "4.19.2",
+    "puppeteer": "23.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.4"
+  }
+}
