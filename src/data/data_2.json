@@ -8,6 +8,7 @@
   "timeline": {
     "startTime": 123.926,
     "fps": 30,
+
     "layers": [
       {
         "id": "70a86621-284a-456c-9e42-65fc1f587228",
@@ -178,5 +179,30 @@
       }
     ],
     "subtitles": []
+  },
+  "subtitlesManager": {
+    "textMode": "full",
+    "highlightAnimation": "none",
+    "highlightAnimationSpeed": 1,
+    "mainTextStyle": {
+      "fontSize": 50,
+      "color": "#ffffff",
+      "fontWeight": "normal",
+      "fontFamily": "Arial",
+      "fontStyle": "normal",
+      "wordWrapWidth": 100,
+      "strokeThickness": 0,
+      "strokeColor": "#000000"
+    },
+    "highlightTextStyle": {
+      "color": "#ffffff",
+      "fontSize": 50,
+      "fontWeight": "normal",
+      "fontFamily": "Arial",
+      "fontStyle": "normal",
+      "backgroundColor": "#000000",
+      "strokeThickness": 0,
+      "strokeColor": "#000000"
+    }
   }
 }

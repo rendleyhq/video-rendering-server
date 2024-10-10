@@ -14,4 +14,4 @@ function getRenderCompletedView({ filePath, duration }) {
   `;
 }
 
-module.exports = { getRenderCompletedView };
+module.exports = getRenderCompletedView;
