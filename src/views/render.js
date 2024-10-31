@@ -33,11 +33,11 @@ function getRenderView({ data, from, to, exportType }) {
       });
 
       
-      engine.getSettings().setPreferredDecodingAcceleration("${
+      engine.getSettings().setDecoderPreferredAcceleration("${
         config.rendering.preferredDecodingAcceleration
       }");
       
-      engine.getSettings().setPreferredEncodingAcceleration("${
+      engine.getSettings().setEncoderPreferredAcceleration("${
         config.rendering.preferredEncodingAcceleration
       }");
       

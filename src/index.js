@@ -5,7 +5,7 @@ const RenderController = require("./controllers/RenderController");
 const RenderCompletedView = require("./views/render_completed");
 const config = require("./config");
 
-const sampleData = require("./data/data.json");
+const sampleData = require("./data/data_30s.json");
 
 const app = express();
 

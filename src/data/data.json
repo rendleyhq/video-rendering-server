@@ -1,5 +1,6 @@
 {
-  "version": "0.0.1",
+  "version": "0.1.1",
+  "projectId": "19c12e4a-2cb0-4b10-b549-1f58c76c0c9b",
   "display": {
     "width": 1920,
     "height": 1080,
@@ -10,47 +11,59 @@
     "fps": 30,
     "layers": [
       {
-        "id": "4463eead-abc3-401c-a1e8-ce8b54ed5f21",
-        "isEnabled": true,
-        "isMuted": false,
+        "id": "27e521fa-0f52-446a-9513-ae5c18c6960c",
+        "visible": true,
+        "muted": false,
+        "volume": 1,
         "clips": [
           {
-            "id": "43574796-0419-4ad2-9eea-df045a727611",
-            "type": "text",
+            "id": "aa7af51c-963d-4618-aa55-3cf6f152394b",
+            "type": "video",
+            "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
             "subtitlesOffset": 0,
             "startTime": 0,
-            "duration": 1,
+            "duration": 296.5,
             "leftTrim": 0,
-            "rightTrim": -4,
+            "rightTrim": 0,
             "filters": [],
             "effects": [],
             "warpMode": "empty",
             "style": {
-              "clipId": "43574796-0419-4ad2-9eea-df045a727611",
+              "clipId": "aa7af51c-963d-4618-aa55-3cf6f152394b",
+              "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
               "alpha": 1,
               "rotation": 0,
               "position": [960, 540],
               "scale": [1, 1],
               "zIndex": 0,
+              "width": 1280,
+              "height": 720,
               "cornerRadius": [0, 0, 0, 0],
-              "relativeCornerRadius": false,
-              "fontSize": 100,
-              "color": "#FFFFFF",
-              "fontWeight": "400",
-              "fontFamily": "Arial",
-              "textAlign": "justify",
-              "fontStyle": "normal",
-              "backgroundColor": null
+              "relativeCornerRadius": false
             },
-            "text": "Hello World, it works as exptected"
+            "animationController": {
+              "loopSmoothing": 0
+            },
+            "volume": 1,
+            "muted": false
           }
         ],
         "transitions": []
       }
-    ]
+    ],
+    "fitDuration": 296.5
   },
   "library": {
-    "media": [],
+    "media": [
+      {
+        "id": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
+        "type": "video",
+        "filename": "BigBuckBunny_5min.mp4",
+        "hash": "5cf2ec5f463ba43034120454cb1ba12c88dcb008a86350a2be48faf664810997",
+        "mimeType": "video/mp4",
+        "permanentUrl": "http://localhost:3000/BigBuckBunny_5min.mp4"
+      }
+    ],
     "subtitles": []
   },
   "subtitlesManager": {
@@ -58,24 +71,39 @@
     "highlightAnimation": "none",
     "highlightAnimationSpeed": 1,
     "mainTextStyle": {
-      "fontSize": 50,
       "color": "#ffffff",
-      "fontWeight": "normal",
+      "fontSize": 50,
+      "fontWeight": "400",
       "fontFamily": "Arial",
       "fontStyle": "normal",
-      "wordWrapWidth": 100,
+      "backgroundColor": "transparent",
+      "backgroundPadding": 0,
+      "backgroundCornerRadius": 0,
       "strokeThickness": 0,
-      "strokeColor": "#000000"
+      "strokeColor": "#000000",
+      "padding": 0,
+      "wordWrapWidth": 1000,
+      "wordWrap": false,
+      "leading": 0
     },
     "highlightTextStyle": {
       "color": "#ffffff",
       "fontSize": 50,
-      "fontWeight": "normal",
+      "fontWeight": "400",
       "fontFamily": "Arial",
       "fontStyle": "normal",
-      "backgroundColor": "#000000",
+      "backgroundColor": "transparent",
+      "backgroundPadding": 0,
+      "backgroundCornerRadius": 0,
       "strokeThickness": 0,
-      "strokeColor": "#000000"
+      "strokeColor": "#000000",
+      "padding": 0
     }
+  },
+  "settings": {
+    "decoderPreferredAcceleration": "prefer-hardware",
+    "encoderPreferredAcceleration": "prefer-hardware",
+    "m3u8MaxResolution": [1920, 1080],
+    "showRenderPreview": true
   }
 }
