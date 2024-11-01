@@ -1,7 +1,7 @@
 const config = require("../config");
 
 function getRenderView({ data, from, to, exportType }) {
-  return `
+	return `
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,13 +33,9 @@ function getRenderView({ data, from, to, exportType }) {
       });
 
       
-      engine.getSettings().setDecoderPreferredAcceleration("${
-        config.rendering.preferredDecodingAcceleration
-      }");
+      engine.getSettings().setDecoderPreferredAcceleration("${config.rendering.preferredDecodingAcceleration}");
       
-      engine.getSettings().setEncoderPreferredAcceleration("${
-        config.rendering.preferredEncodingAcceleration
-      }");
+      engine.getSettings().setEncoderPreferredAcceleration("${config.rendering.preferredEncodingAcceleration}");
       
     
       
@@ -47,17 +43,24 @@ function getRenderView({ data, from, to, exportType }) {
 
 
       window.exportVideo = async () => {
-        const { blob } = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
+        const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
      
-        const buffer = await blob.arrayBuffer();
-        
-        const buffer_size = ${config.rendering.chunkPartialBufferSize};
+        if (exportResult !== null)
+        {
+          const buffer = await exportResult.blob.arrayBuffer();
+          
+          const buffer_size = ${config.rendering.chunkPartialBufferSize};
 
-        window.prepareBuffer?.(buffer.byteLength);
+          window.prepareBuffer?.(buffer.byteLength);
 
-        for (let i = 0; i < buffer.byteLength; i += buffer_size) {
-          const chunk = buffer.slice(i, i + buffer_size);
-          await window.feedBuffer?.(Array.from(new Uint8Array(chunk))); 
+          for (let i = 0; i < buffer.byteLength; i += buffer_size) {
+            const chunk = buffer.slice(i, i + buffer_size);
+            await window.feedBuffer?.(Array.from(new Uint8Array(chunk))); 
+          }
+
+          return true;
+        } else {
+          return false;
         }
       };
     </script>
