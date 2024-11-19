@@ -15,32 +15,34 @@ async function renderVideo(expressApp, data) {
     Math.ceil(data.timeline.fitDuration / 60) // 1 minute per chunk
   );
 
-  const timeout = data.timeline.fitDuration * 5 * 1000;
+  const timeout = data.timeline.fitDuration * chunksCount * 10000;
+
+  console.log("--->16");
 
   const browser = await puppeteer.launch({
     headless: true,
     timeout,
     protocolTimeout: timeout,
+    // defaultViewport: {
+    //   width: 1920,
+    //   height: 1080,
+    // },
     args: [
       "--no-sandbox",
       `--max-old-space-size=${config.rendering.maxRamPerVideo}`,
       `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`,
       "--disable-setuid-sandbox",
-      "--ignore-gpu-blacklist",
-      "--enable-webgl",
       "--enable-webcodecs",
-      "--force-high-performance-gpu",
       "--enable-accelerated-video-decode",
       "--disable-background-timer-throttling",
-      "--disable-renderer-backgrounding",
-      "--disable-backgrounding-occluded-windows",
-      "--disable-software-rasterizer",
-      "--disable-gpu-vsync",
       "--disable-dev-shm-usage",
-      "--disable-background-timer-throttling",
-      "--enable-oop-rasterization",
-      "--disable-gpu-process-crash-limit",
+      "--use-gl=angle",
+      "--use-angle=swiftshader",
+      "--headless",
     ],
+    // env: {
+    //   DISPLAY: ":10.0",
+    // },
   });
 
   const fitDuration = data.timeline.fitDuration;
@@ -52,6 +54,14 @@ async function renderVideo(expressApp, data) {
 
   const renderTask = async (page, { from, to, index, exportType }) => {
     const start = performance.now();
+
+    const isWebGLSupported = await page.evaluate(() => {
+      const canvas = document.createElement("canvas");
+      return !!(
+        canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+      );
+    });
+    console.log("WebGL Supported:", isWebGLSupported);
 
     console.log(
       `[CLUSTER ${index}] Start rendering chunks`,
