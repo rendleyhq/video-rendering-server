@@ -18,7 +18,7 @@ async function renderVideo(expressApp, data) {
   const timeout = data.timeline.fitDuration * 5 * 1000;
 
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     timeout,
     protocolTimeout: timeout,
     args: [
