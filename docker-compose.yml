@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    environment:
+      - NODE_ENV=production
+    platform: linux/amd64 # Update if needed
+    env_file:
+      - .env
+    command: ["node", "src/index.js"]
+    cap_add:
+      - SYS_ADMIN # For Puppeteer
+    init: true

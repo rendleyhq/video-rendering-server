@@ -3,6 +3,7 @@ const path = require("path");
 const crypto = require("crypto");
 const { exec } = require("child_process");
 const puppeteer = require("puppeteer");
+const { Cluster } = require("puppeteer-cluster");
 
 const RenderView = require("../views/render");
 const config = require("../config");
@@ -15,33 +16,7 @@ async function renderVideo(expressApp, data) {
     Math.ceil(data.timeline.fitDuration / 60) // 1 minute per chunk
   );
 
-  const timeout = data.timeline.fitDuration * 5 * 1000;
-
-  const browser = await puppeteer.launch({
-    headless: true,
-    timeout,
-    protocolTimeout: timeout,
-    args: [
-      "--no-sandbox",
-      `--max-old-space-size=${config.rendering.maxRamPerVideo}`,
-      `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`,
-      "--disable-setuid-sandbox",
-      "--ignore-gpu-blacklist",
-      "--enable-webgl",
-      "--enable-webcodecs",
-      "--force-high-performance-gpu",
-      "--enable-accelerated-video-decode",
-      "--disable-background-timer-throttling",
-      "--disable-renderer-backgrounding",
-      "--disable-backgrounding-occluded-windows",
-      "--disable-software-rasterizer",
-      "--disable-gpu-vsync",
-      "--disable-dev-shm-usage",
-      "--disable-background-timer-throttling",
-      "--enable-oop-rasterization",
-      "--disable-gpu-process-crash-limit",
-    ],
-  });
+  const timeout = data.timeline.fitDuration * chunksCount * 10000;
 
   const fitDuration = data.timeline.fitDuration;
   const chunkDuration = fitDuration / chunksCount;
@@ -50,19 +25,42 @@ async function renderVideo(expressApp, data) {
   let chunksPaths = [];
   let hasAudio = true;
 
-  const renderTask = async (page, { from, to, index, exportType }) => {
-    const start = performance.now();
+  const cluster = await Cluster.launch({
+    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    maxConcurrency: totalChunks + 1,
+    timeout,
+    puppeteerOptions: {
+      headless: true,
+      // timeout,
+      // protocolTimeout: timeout,
+      args: [
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        `--max-old-space-size=${config.rendering.maxRamPerVideo}`,
+        `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`,
+        "--disable-setuid-sandbox",
+        "--ignore-gpu-blacklist",
+        "--enable-webgl",
+        "--enable-webcodecs",
+        "--force-high-performance-gpu",
+        "--enable-accelerated-video-decode",
+        "--disable-background-timer-throttling",
+        "--disable-renderer-backgrounding",
+        "--disable-backgrounding-occluded-windows",
+        "--disable-software-rasterizer",
+        "--disable-gpu-vsync",
+        "--enable-oop-rasterization",
+      ],
+    },
+  });
 
-    console.log(
-      `[CLUSTER ${index}] Start rendering chunks`,
-      `(${from}, ${to}, ${exportType})`,
-      Date.now()
-    );
+  await cluster.task(async ({ page, data: payload }) => {
+    const { from, to, index, exportType } = payload;
+
+    const start = performance.now();
 
     expressApp.get(`/renderer/${randomId}/${index}`, (req, res) => {
       res.setHeader("Content-Type", "text/html");
-      res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-      res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
       res.send(RenderView({ data, from, to, exportType }));
     });
 
@@ -76,6 +74,10 @@ async function renderVideo(expressApp, data) {
       { waitUntil: "domcontentloaded" }
     );
 
+    await page.waitForFunction(() => typeof window.exportVideo === "function", {
+      timeout: timeout,
+    });
+
     await page.exposeFunction("prepareBuffer", (size) => {
       buffer = new Uint8Array(size);
     });
@@ -85,77 +87,50 @@ async function renderVideo(expressApp, data) {
       cursor += data.length;
     });
 
-    await page.waitForFunction(() => {
-      return typeof window.exportVideo === "function";
+    const result = await page.evaluate(async () => {
+      return await window.exportVideo();
     });
 
-    return async () => {
-      await page.bringToFront();
+    if (!result) {
+      throw new Error("Something went wrong");
+    }
 
-      const result = await page.evaluate(
-        async () => {
-          return await window.exportVideo();
-        },
-        { timeout }
-      );
+    console.log(
+      `[CLUSTER ${index}] End rendering chunk`,
+      `(Took: ${(performance.now() - start) / 1000})`
+    );
 
-      if (!result) {
-        hasAudio = false;
-      } else {
-        console.log(
-          `[CLUSTER ${index}] End rendering chunk`,
-          `(Took: ${(performance.now() - start) / 1000})`
-        );
+    const extension = exportType === "audio_only" ? "aac" : "mp4";
 
-        const extension = exportType === "audio_only" ? "aac" : "mp4";
-        const storedPath = path.join(
-          getTempDir(randomId),
-          `${index}.${extension}`
-        );
+    const storedPath = path.join(getTempDir(randomId), `${index}.${extension}`);
 
-        await storeToFS(storedPath, buffer);
+    await storeToFS(storedPath, buffer);
 
-        chunksPaths[index] = storedPath;
-      }
+    chunksPaths[index] = storedPath;
 
-      await page.close();
-    };
-  };
-
-  // Queue tasks for each chunk
-  let openedTasks = [];
+    return true;
+  });
 
   for (let i = 0; i < totalChunks; i++) {
     const from = i * chunkDuration;
     const to = Math.min(from + chunkDuration, fitDuration);
-    const page = await browser.newPage();
 
-    const renderFn = await renderTask(page, {
-      from,
-      to,
-      index: i,
-      exportType: "video_only",
-    });
-
-    openedTasks[i] = renderFn();
+    cluster.queue({ from, to, index: i, exportType: "video_only" });
   }
 
-  const audioPage = await browser.newPage();
-
-  const renderAudioFn = await renderTask(audioPage, {
+  cluster.queue({
     from: 0,
     to: fitDuration,
     index: totalChunks,
     exportType: "audio_only",
   });
 
-  openedTasks[totalChunks] = renderAudioFn();
+  await cluster.idle();
+  await cluster.close();
 
   let finalVideoPath;
 
   try {
-    await Promise.all(openedTasks);
-
     finalVideoPath = await mergeFinalVideoFromChunks(
       randomId,
       chunksPaths,
@@ -166,7 +141,6 @@ async function renderVideo(expressApp, data) {
     console.log("ERROR", error);
   } finally {
     await deleteFromFS(getTempDir(randomId));
-    browser.close();
   }
 
   console.log(`[RENDER DONE] Final video path: ${finalVideoPath}`);
