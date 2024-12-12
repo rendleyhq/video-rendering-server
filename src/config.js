@@ -15,8 +15,8 @@ module.exports = {
   rendering: {
     chunkPartialBufferSize: 5 * 1024 * 1024, // 5MB
     maxCoresPerVideo: OS_CORES,
-    maxRamPerVideo: OS_RAM,
-    maxGpuPerVideo: OS_RAM,
+    maxRamPerVideo: "4096",
+    maxGpuPerVideo: "512",
     preferredDecodingAcceleration: "prefer-software",
     preferredEncodingAcceleration: "prefer-software",
   },
