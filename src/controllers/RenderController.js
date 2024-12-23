@@ -2,7 +2,6 @@ const fs = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
 const { exec } = require("child_process");
-const puppeteer = require("puppeteer");
 const { Cluster } = require("puppeteer-cluster");
 
 const RenderView = require("../views/render");
@@ -26,7 +25,7 @@ async function renderVideo(expressApp, data) {
   let hasAudio = true;
 
   const cluster = await Cluster.launch({
-    concurrency: Cluster.CONCURRENCY_CONTEXT,
+    concurrency: config.rendering.concurrencyMode,
     maxConcurrency: totalChunks + 1,
     timeout,
     puppeteerOptions: {
@@ -56,6 +55,8 @@ async function renderVideo(expressApp, data) {
 
   await cluster.task(async ({ page, data: payload }) => {
     const { from, to, index, exportType } = payload;
+
+    console.log(`[CLUSTER ${index}] Rendering ${from} to ${to}`);
 
     const start = performance.now();
 
@@ -125,12 +126,12 @@ async function renderVideo(expressApp, data) {
     exportType: "audio_only",
   });
 
-  await cluster.idle();
-  await cluster.close();
-
   let finalVideoPath;
 
   try {
+    await cluster.idle();
+    await cluster.close();
+
     finalVideoPath = await mergeFinalVideoFromChunks(
       randomId,
       chunksPaths,

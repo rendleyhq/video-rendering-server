@@ -1,7 +1,7 @@
 const config = require("../config");
 
 function getRenderView({ data, from, to, exportType }) {
-	return `
+  return `
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -31,17 +31,19 @@ function getRenderView({ data, from, to, exportType }) {
           view: renderer,
         }
       });
-
-      
-      engine.getSettings().setDecoderPreferredAcceleration("${config.rendering.preferredDecodingAcceleration}");
-      
-      engine.getSettings().setEncoderPreferredAcceleration("${config.rendering.preferredEncodingAcceleration}");
-      
-    
       
       await Engine.deserialize(${JSON.stringify(data)});
 
 
+         
+      engine.getSettings().setDecoderPreferredAcceleration("${
+        config.rendering.preferredDecodingAcceleration
+      }");
+      
+      engine.getSettings().setEncoderPreferredAcceleration("${
+        config.rendering.preferredEncodingAcceleration
+      }");
+      
       window.exportVideo = async () => {
         const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
      

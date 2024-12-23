@@ -1,10 +1,17 @@
 const dotenv = require("dotenv");
 const os = require("os");
+const { Cluster } = require("puppeteer-cluster");
 
 const OS_CORES = os.cpus().length;
 const OS_RAM = os.totalmem();
 
 dotenv.config();
+
+const concurrencyMode = {
+  context: Cluster.CONCURRENCY_CONTEXT, // opens a new window for each task
+  page: Cluster.CONCURRENCY_PAGE, // opens a new tab for each task (might require focus)
+  browser: Cluster.CONCURRENCY_BROWSER, // opens a new browser for each task
+};
 
 module.exports = {
   port: process.env.PORT || 3000,
@@ -19,5 +26,6 @@ module.exports = {
     maxGpuPerVideo: "512",
     preferredDecodingAcceleration: "prefer-software",
     preferredEncodingAcceleration: "prefer-software",
+    concurrencyMode: concurrencyMode.context,
   },
 };
