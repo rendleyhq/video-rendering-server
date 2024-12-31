@@ -26,6 +26,6 @@ module.exports = {
     maxGpuPerVideo: "512",
     preferredDecodingAcceleration: "prefer-software",
     preferredEncodingAcceleration: "prefer-software",
-    concurrencyMode: concurrencyMode.context,
+    concurrencyMode: concurrencyMode.browser,
   },
 };

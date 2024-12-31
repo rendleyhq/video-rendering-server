@@ -6,6 +6,7 @@ function getRenderView({ data, from, to, exportType }) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
   </head>
   <body>
     <canvas id="renderer"></canvas>
@@ -31,19 +32,19 @@ function getRenderView({ data, from, to, exportType }) {
           view: renderer,
         }
       });
-      
+
       await Engine.deserialize(${JSON.stringify(data)});
-
-
          
+
+
       engine.getSettings().setDecoderPreferredAcceleration("${
         config.rendering.preferredDecodingAcceleration
       }");
       
       engine.getSettings().setEncoderPreferredAcceleration("${
         config.rendering.preferredEncodingAcceleration
-      }");
-      
+      }"); 
+
       window.exportVideo = async () => {
         const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
      

@@ -30,8 +30,8 @@ async function renderVideo(expressApp, data) {
     timeout,
     puppeteerOptions: {
       headless: true,
-      // timeout,
-      // protocolTimeout: timeout,
+      timeout,
+      protocolTimeout: timeout,
       args: [
         "--no-sandbox",
         "--disable-dev-shm-usage",
