@@ -1,7 +1,13 @@
 const config = require("../config");
 
+function simplifyData(data) {
+	// Duplicate data
+	const newData = JSON.parse(JSON.stringify(data));
+	return newData;
+}
+
 function getRenderView({ data, from, to, exportType }) {
-  return `
+	return `
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,17 +39,13 @@ function getRenderView({ data, from, to, exportType }) {
         }
       });
 
-      await Engine.deserialize(${JSON.stringify(data)});
+      await Engine.deserialize(${JSON.stringify(simplifyData(data))});
          
 
 
-      engine.getSettings().setDecoderPreferredAcceleration("${
-        config.rendering.preferredDecodingAcceleration
-      }");
+      engine.getSettings().setDecoderPreferredAcceleration("${config.rendering.preferredDecodingAcceleration}");
       
-      engine.getSettings().setEncoderPreferredAcceleration("${
-        config.rendering.preferredEncodingAcceleration
-      }"); 
+      engine.getSettings().setEncoderPreferredAcceleration("${config.rendering.preferredEncodingAcceleration}"); 
 
       window.exportVideo = async () => {
         const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
