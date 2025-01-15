@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
-const https = require("https");
-const fs = require("fs");
+// Uncomment these for https
+//const https = require("https");
+//const fs = require("fs");
 
 const RenderController = require("./controllers/RenderController");
 const RenderCompletedView = require("./views/render_completed");
@@ -24,21 +25,23 @@ app.get("/packages/rendley-sdk", (req, res) => {
 	res.sendFile(filePath);
 });
 
-/*
+// Comment/Remove this for HTTPS
 app.listen(config.port, () => {
-  console.log(`Server is running on port ${config.port}`);
+	console.log(`Server is running on port ${config.port}`);
 });
-*/
+
+/* Alternative for SSL Server
 // SSL certificate and key
 const sslOptions = {
-	key: fs.readFileSync(path.join(__dirname, "../tmp_certificates/key.pem")),
-	cert: fs.readFileSync(path.join(__dirname, "../tmp_certificates/cert.pem")),
+	key: fs.readFileSync(path.join(__dirname, "../tmp_certificates/key.pem")), // You need to generate these certificates
+	cert: fs.readFileSync(path.join(__dirname, "../tmp_certificates/cert.pem")), // You need to generate these certificates
 };
 
 // Start HTTPS server
 https.createServer(sslOptions, app).listen(config.port, () => {
 	console.log(`HTTPS server is running on port ${config.port}`);
 });
+*/
 
 // Helper function to handle rendering logic
 async function handleRender(req, res, data) {

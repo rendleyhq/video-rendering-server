@@ -93,7 +93,7 @@ async function renderVideo(expressApp, data) {
 			//console.log("PAGE LOG:", text)
 		});
 
-		const pageUrl = `https://localhost:${config.port}/renderer/${randomId}/${index}`;
+		const pageUrl = `http://localhost:${config.port}/renderer/${randomId}/${index}`;
 		console.log(`[CLUSTER ${index}] Page URL: ${pageUrl}`);
 		await page.goto(pageUrl, { waitUntil: "domcontentloaded" });
 

@@ -1,676 +1,110 @@
 {
-  "version": "0.1.1",
-  "projectId": "1044b094-153e-40f4-aef0-66002b11c8d2",
-  "display": {
+    "version": "0.1.1",
+    "projectId": "19c12e4a-2cb0-4b10-b549-1f58c76c0c9b",
+    "display": {
       "width": 1920,
       "height": 1080,
       "backgroundColor": "#000000"
-  },
-  "settings": {
-      "decoderPreferredAcceleration": "prefer-hardware",
-      "encoderPreferredAcceleration": "prefer-hardware",
-      "m3u8MaxResolution": [1920, 1080],
-      "showRenderPreview": true
-  },
-  "subtitlesManager": {
+    },
+    "timeline": {
+      "startTime": 0,
+      "fps": 30,
+      "layers": [
+        {
+          "id": "27e521fa-0f52-446a-9513-ae5c18c6960c",
+          "visible": true,
+          "muted": false,
+          "volume": 1,
+          "clips": [
+            {
+              "id": "aa7af51c-963d-4618-aa55-3cf6f152394b",
+              "type": "video",
+              "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
+              "subtitlesOffset": 0,
+              "startTime": 0,
+              "duration": 296.5,
+              "leftTrim": 0,
+              "rightTrim": 0,
+              "filters": [],
+              "effects": [],
+              "warpMode": "empty",
+              "style": {
+                "clipId": "aa7af51c-963d-4618-aa55-3cf6f152394b",
+                "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
+                "alpha": 1,
+                "rotation": 0,
+                "position": [960, 540],
+                "scale": [1, 1],
+                "zIndex": 0,
+                "width": 1280,
+                "height": 720,
+                "cornerRadius": [0, 0, 0, 0],
+                "relativeCornerRadius": false
+              },
+              "animationController": {
+                "loopSmoothing": 0
+              },
+              "volume": 1,
+              "muted": false
+            }
+          ],
+          "transitions": []
+        }
+      ],
+      "fitDuration": 296.5
+    },
+    "library": {
+      "media": [
+        {
+          "id": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
+          "type": "video",
+          "filename": "BigBuckBunny_5min.mp4",
+          "hash": "5cf2ec5f463ba43034120454cb1ba12c88dcb008a86350a2be48faf664810997",
+          "mimeType": "video/mp4",
+          "permanentUrl": "http://localhost:3000/BigBuckBunny_5min.mp4"
+        }
+      ],
+      "subtitles": []
+    },
+    "subtitlesManager": {
       "textMode": "full",
       "highlightAnimation": "none",
       "highlightAnimationSpeed": 1,
       "mainTextStyle": {
-          "color": "#ffffff",
-          "fontSize": 50,
-          "fontWeight": "400",
-          "fontFamily": "Arial",
-          "fontStyle": "normal",
-          "backgroundColor": "transparent",
-          "backgroundPadding": 0,
-          "backgroundCornerRadius": 0,
-          "strokeThickness": 0,
-          "strokeColor": "#000000",
-          "padding": 0,
-          "wordWrapWidth": 1000,
-          "wordWrap": false,
-          "leading": 0
+        "color": "#ffffff",
+        "fontSize": 50,
+        "fontWeight": "400",
+        "fontFamily": "Arial",
+        "fontStyle": "normal",
+        "backgroundColor": "transparent",
+        "backgroundPadding": 0,
+        "backgroundCornerRadius": 0,
+        "strokeThickness": 0,
+        "strokeColor": "#000000",
+        "padding": 0,
+        "wordWrapWidth": 1000,
+        "wordWrap": false,
+        "leading": 0
       },
       "highlightTextStyle": {
-          "color": "#ffffff",
-          "fontSize": 50,
-          "fontWeight": "400",
-          "fontFamily": "Arial",
-          "fontStyle": "normal",
-          "backgroundColor": "transparent",
-          "backgroundPadding": 0,
-          "backgroundCornerRadius": 0,
-          "strokeThickness": 0,
-          "strokeColor": "#000000",
-          "padding": 0
+        "color": "#ffffff",
+        "fontSize": 50,
+        "fontWeight": "400",
+        "fontFamily": "Arial",
+        "fontStyle": "normal",
+        "backgroundColor": "transparent",
+        "backgroundPadding": 0,
+        "backgroundCornerRadius": 0,
+        "strokeThickness": 0,
+        "strokeColor": "#000000",
+        "padding": 0
       }
-  },
-  "library": {
-      "media": [{
-              "id": "23c8c8ec-3c5f-415d-bed2-7b04d7520ef9",
-              "type": "video",
-              "filename": "/renders/df-assets/fc891a1f-6f07-464f-a746-79e443853ac4.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/fc891a1f-6f07-464f-a746-79e443853ac4.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "9155e3a2-5fc4-4c75-90fe-d22e76eda280",
-              "type": "video",
-              "filename": "/renders/df-assets/d6494d1d-adbb-4cf0-acf1-c2662a8d7856.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/d6494d1d-adbb-4cf0-acf1-c2662a8d7856.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "e46a48a3-4db5-430d-ba53-8d61a122a708",
-              "type": "video",
-              "filename": "/renders/df-assets/d8e79bfc-3f0a-49a8-85b9-48f26c641044.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/d8e79bfc-3f0a-49a8-85b9-48f26c641044.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "7ed2a8a7-85de-4a90-8e64-a9513a4257e6",
-              "type": "video",
-              "filename": "/renders/df-assets/1cddf379-7fe9-4740-a6bb-f0ce260fbb79.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/1cddf379-7fe9-4740-a6bb-f0ce260fbb79.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "36a51998-6fe3-43d8-8cc9-1dba5211302e",
-              "type": "video",
-              "filename": "/renders/df-assets/87fe7b8c-a05c-46b5-af95-ee4fa5e66b14.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/87fe7b8c-a05c-46b5-af95-ee4fa5e66b14.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "a46f3dd1-8667-469b-88e6-e5f1dba2e7ec",
-              "type": "video",
-              "filename": "/renders/df-assets/81b9bb2d-04ee-413d-94a7-65a077d36046.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/81b9bb2d-04ee-413d-94a7-65a077d36046.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "9c5c2048-4cef-4096-b469-04c5cc79c792",
-              "type": "video",
-              "filename": "/renders/df-assets/b5bbcc2b-29f8-4d4c-880d-d8e636c755b2.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/b5bbcc2b-29f8-4d4c-880d-d8e636c755b2.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "b09335f6-993d-45f2-8893-dc688c16e85a",
-              "type": "video",
-              "filename": "/renders/df-assets/d5763f6c-083b-415a-9e9f-f83cc638378a.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/d5763f6c-083b-415a-9e9f-f83cc638378a.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "d5315880-34a7-4b2e-a506-1c5654cebae6",
-              "type": "video",
-              "filename": "/renders/df-assets/8eb0e56f-712f-473c-92ce-078c08e39633.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/8eb0e56f-712f-473c-92ce-078c08e39633.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "39edf1a3-6c8a-4214-896b-18c2cb7ff639",
-              "type": "video",
-              "filename": "/renders/df-assets/0eb1c213-da73-4bed-8358-40452a5783c2.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/0eb1c213-da73-4bed-8358-40452a5783c2.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "ff3bd1a9-0e96-4214-b527-6dca7315caca",
-              "type": "video",
-              "filename": "/renders/df-assets/fc4474a5-4206-49b8-b303-c0a69cdc10a6.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/fc4474a5-4206-49b8-b303-c0a69cdc10a6.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "004e5e6e-8f1d-433b-b2eb-eeb2c338bb41",
-              "type": "video",
-              "filename": "/renders/df-assets/edcea0c5-ae5d-4414-802d-8ca2b3882de2.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/edcea0c5-ae5d-4414-802d-8ca2b3882de2.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "b96c650c-70fd-4ce9-8aa4-c10f74f5e120",
-              "type": "video",
-              "filename": "/renders/df-assets/caa218db-d775-4506-8e13-a18a1938c6bf.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/caa218db-d775-4506-8e13-a18a1938c6bf.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "34d839c7-4958-4cb8-a7de-1d861ad33b61",
-              "type": "video",
-              "filename": "/renders/df-assets/1756748a-29b3-4dac-9ea4-bc5f89775d71.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/1756748a-29b3-4dac-9ea4-bc5f89775d71.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "5b770d8c-7cd1-46af-b597-af24283cb21b",
-              "type": "video",
-              "filename": "/renders/df-assets/162d1fa0-e264-4b12-a6da-71ca7cb7063b.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/162d1fa0-e264-4b12-a6da-71ca7cb7063b.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "a43ecce0-b104-4bfa-b2aa-571712224622",
-              "type": "video",
-              "filename": "/renders/df-assets/383638ec-2f28-407d-8ae4-13f272d17504.mp4",
-              "permanentUrl": "https://localhost:3333/assets/renderIssue/383638ec-2f28-407d-8ae4-13f272d17504.mp4",
-              "mimeType": "binary/octet-stream"
-          }, {
-              "id": "music_media",
-              "type": "video",
-              "filename": "https://prod-ic-20220524162525998700000005.s3.amazonaws.com/public/static/music/S130.%203535%20S%20Ocean.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA2XXV3URTR6EIG4GZ%2F20241220%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20241220T142014Z&X-Amz-Expires=518400&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMiJIMEYCIQCpZuWBpZYWifnMz8CfDRjX3TRNP4XfllB6X3f6D%2FqzcAIhAMyaC%2FcYSobnVhrsqPIU2a%2BfkNTbNucJHZNJd5opSvyjKpEDCI%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNzM4MTc2MjQ2ODg3Igzkl3xAF7lHGyPb3RUq5QIBQHCuMXdB8rLqYZoBk4bIfJnKbp6aSVp%2BUqSe4cKn%2FHtBskxzl0MQ8l6frYQ8vJ8pn%2BxuLCeSQxhypVNCTlOx8NgZ%2FPreAR6s6dHDaWm7UYsL6EmvtUftyAF8E7iaU0wKyjzoYMB7Ixwcq6mEtO8rmI%2B%2Fbv%2FaCI%2BMZGYmaTOJP%2B3TKbo6vXDpLjnd79hD0YpvLK35OaYtTAntMvyjfKHIFuWMzncHpZCBtv8ARC3%2F8yMsIfccPqxaB6OIOIu2e9nko2gW9xu6Jqucvcxi5t5KyE1e%2FBl7XrfceeKTcQIR7SV4dIG5RFww3STG3tgYjX9zRyFmCXAd5A7Mjvoy9R10KNdBpbcDNXdLV7QZ5dOBX2tsRQmusmQZxN3NBILBIEgLsJLbuf8UKn99PR3Je8lms6pjGNysZLUx683fWCRrVbjLQtS%2BBK1iJsl65NivYsf4ZDN7bpof0ZDwVtMALPN5%2F2BEBykwrvWVuwY6pQGtkXZmwRuOf6MHEqCq%2BxFtuqfIh%2BA2sYUhKoHCPtxgw81LUNCH1qBa%2F%2BgvzZc46IFKypfoY0aqqJsmPEdIthTfftCYubLN0zgEkCXiKV%2FFb70B4txVX0REyN68wlzfDjTkrefoDhYlY%2FYcjI%2BKK%2FLnG0YvSx%2F2TgyYhdfjZt8WEQOgAcmqgJqDaIaHOR4dYK4f%2FEoM%2BdpFMtqut9Bj7ZIou%2FSSUJY%3D&X-Amz-Signature=dc6a31f6ce3469215ffb2940d3b3292809ea56d183bcef08776b5b63ec441246",
-              "permanentUrl": "https://prod-ic-20220524162525998700000005.s3.amazonaws.com/public/static/music/S130.%203535%20S%20Ocean.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA2XXV3URTR6EIG4GZ%2F20241220%2Fus-east-2%2Fs3%2Faws4_request&X-Amz-Date=20241220T142014Z&X-Amz-Expires=518400&X-Amz-SignedHeaders=host&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMb%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMiJIMEYCIQCpZuWBpZYWifnMz8CfDRjX3TRNP4XfllB6X3f6D%2FqzcAIhAMyaC%2FcYSobnVhrsqPIU2a%2BfkNTbNucJHZNJd5opSvyjKpEDCI%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQABoMNzM4MTc2MjQ2ODg3Igzkl3xAF7lHGyPb3RUq5QIBQHCuMXdB8rLqYZoBk4bIfJnKbp6aSVp%2BUqSe4cKn%2FHtBskxzl0MQ8l6frYQ8vJ8pn%2BxuLCeSQxhypVNCTlOx8NgZ%2FPreAR6s6dHDaWm7UYsL6EmvtUftyAF8E7iaU0wKyjzoYMB7Ixwcq6mEtO8rmI%2B%2Fbv%2FaCI%2BMZGYmaTOJP%2B3TKbo6vXDpLjnd79hD0YpvLK35OaYtTAntMvyjfKHIFuWMzncHpZCBtv8ARC3%2F8yMsIfccPqxaB6OIOIu2e9nko2gW9xu6Jqucvcxi5t5KyE1e%2FBl7XrfceeKTcQIR7SV4dIG5RFww3STG3tgYjX9zRyFmCXAd5A7Mjvoy9R10KNdBpbcDNXdLV7QZ5dOBX2tsRQmusmQZxN3NBILBIEgLsJLbuf8UKn99PR3Je8lms6pjGNysZLUx683fWCRrVbjLQtS%2BBK1iJsl65NivYsf4ZDN7bpof0ZDwVtMALPN5%2F2BEBykwrvWVuwY6pQGtkXZmwRuOf6MHEqCq%2BxFtuqfIh%2BA2sYUhKoHCPtxgw81LUNCH1qBa%2F%2BgvzZc46IFKypfoY0aqqJsmPEdIthTfftCYubLN0zgEkCXiKV%2FFb70B4txVX0REyN68wlzfDjTkrefoDhYlY%2FYcjI%2BKK%2FLnG0YvSx%2F2TgyYhdfjZt8WEQOgAcmqgJqDaIaHOR4dYK4f%2FEoM%2BdpFMtqut9Bj7ZIou%2FSSUJY%3D&X-Amz-Signature=dc6a31f6ce3469215ffb2940d3b3292809ea56d183bcef08776b5b63ec441246",
-              "mimeType": "audio/mp3"
-          }
-      ],
-      "subtitles": []
-  },
-  "timeline": {
-      "startTime": 0,
-      "fps": 30,
-      "layers": [{
-              "id": "1557bddf-492f-4d3a-a592-36fb616ec722",
-              "visible": true,
-              "muted": false,
-              "volume": 1,
-              "transitions": [],
-              "clips": [{
-                      "id": "23c8c8ec-3c5f-415d-bed2-7b04d7520ef9_layer",
-                      "type": "video",
-                      "mediaDataId": "23c8c8ec-3c5f-415d-bed2-7b04d7520ef9",
-                      "subtitlesOffset": 0,
-                      "startTime": 0,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "23c8c8ec-3c5f-415d-bed2-7b04d7520ef9_layer",
-                          "mediaDataId": "23c8c8ec-3c5f-415d-bed2-7b04d7520ef9",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "9155e3a2-5fc4-4c75-90fe-d22e76eda280_layer",
-                      "type": "video",
-                      "mediaDataId": "9155e3a2-5fc4-4c75-90fe-d22e76eda280",
-                      "subtitlesOffset": 0,
-                      "startTime": 3.4,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "9155e3a2-5fc4-4c75-90fe-d22e76eda280_layer",
-                          "mediaDataId": "9155e3a2-5fc4-4c75-90fe-d22e76eda280",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "e46a48a3-4db5-430d-ba53-8d61a122a708_layer",
-                      "type": "video",
-                      "mediaDataId": "e46a48a3-4db5-430d-ba53-8d61a122a708",
-                      "subtitlesOffset": 0,
-                      "startTime": 6.8,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "e46a48a3-4db5-430d-ba53-8d61a122a708_layer",
-                          "mediaDataId": "e46a48a3-4db5-430d-ba53-8d61a122a708",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "7ed2a8a7-85de-4a90-8e64-a9513a4257e6_layer",
-                      "type": "video",
-                      "mediaDataId": "7ed2a8a7-85de-4a90-8e64-a9513a4257e6",
-                      "subtitlesOffset": 0,
-                      "startTime": 10.2,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "7ed2a8a7-85de-4a90-8e64-a9513a4257e6_layer",
-                          "mediaDataId": "7ed2a8a7-85de-4a90-8e64-a9513a4257e6",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "36a51998-6fe3-43d8-8cc9-1dba5211302e_layer",
-                      "type": "video",
-                      "mediaDataId": "36a51998-6fe3-43d8-8cc9-1dba5211302e",
-                      "subtitlesOffset": 0,
-                      "startTime": 13.6,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "36a51998-6fe3-43d8-8cc9-1dba5211302e_layer",
-                          "mediaDataId": "36a51998-6fe3-43d8-8cc9-1dba5211302e",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "a46f3dd1-8667-469b-88e6-e5f1dba2e7ec_layer",
-                      "type": "video",
-                      "mediaDataId": "a46f3dd1-8667-469b-88e6-e5f1dba2e7ec",
-                      "subtitlesOffset": 0,
-                      "startTime": 17.0,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "a46f3dd1-8667-469b-88e6-e5f1dba2e7ec_layer",
-                          "mediaDataId": "a46f3dd1-8667-469b-88e6-e5f1dba2e7ec",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "9c5c2048-4cef-4096-b469-04c5cc79c792_layer",
-                      "type": "video",
-                      "mediaDataId": "9c5c2048-4cef-4096-b469-04c5cc79c792",
-                      "subtitlesOffset": 0,
-                      "startTime": 20.4,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "9c5c2048-4cef-4096-b469-04c5cc79c792_layer",
-                          "mediaDataId": "9c5c2048-4cef-4096-b469-04c5cc79c792",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "b09335f6-993d-45f2-8893-dc688c16e85a_layer",
-                      "type": "video",
-                      "mediaDataId": "b09335f6-993d-45f2-8893-dc688c16e85a",
-                      "subtitlesOffset": 0,
-                      "startTime": 23.799999999999997,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "b09335f6-993d-45f2-8893-dc688c16e85a_layer",
-                          "mediaDataId": "b09335f6-993d-45f2-8893-dc688c16e85a",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "d5315880-34a7-4b2e-a506-1c5654cebae6_layer",
-                      "type": "video",
-                      "mediaDataId": "d5315880-34a7-4b2e-a506-1c5654cebae6",
-                      "subtitlesOffset": 0,
-                      "startTime": 27.199999999999996,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "d5315880-34a7-4b2e-a506-1c5654cebae6_layer",
-                          "mediaDataId": "d5315880-34a7-4b2e-a506-1c5654cebae6",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "39edf1a3-6c8a-4214-896b-18c2cb7ff639_layer",
-                      "type": "video",
-                      "mediaDataId": "39edf1a3-6c8a-4214-896b-18c2cb7ff639",
-                      "subtitlesOffset": 0,
-                      "startTime": 30.599999999999994,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "39edf1a3-6c8a-4214-896b-18c2cb7ff639_layer",
-                          "mediaDataId": "39edf1a3-6c8a-4214-896b-18c2cb7ff639",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "ff3bd1a9-0e96-4214-b527-6dca7315caca_layer",
-                      "type": "video",
-                      "mediaDataId": "ff3bd1a9-0e96-4214-b527-6dca7315caca",
-                      "subtitlesOffset": 0,
-                      "startTime": 33.99999999999999,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "ff3bd1a9-0e96-4214-b527-6dca7315caca_layer",
-                          "mediaDataId": "ff3bd1a9-0e96-4214-b527-6dca7315caca",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "004e5e6e-8f1d-433b-b2eb-eeb2c338bb41_layer",
-                      "type": "video",
-                      "mediaDataId": "004e5e6e-8f1d-433b-b2eb-eeb2c338bb41",
-                      "subtitlesOffset": 0,
-                      "startTime": 37.39999999999999,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "004e5e6e-8f1d-433b-b2eb-eeb2c338bb41_layer",
-                          "mediaDataId": "004e5e6e-8f1d-433b-b2eb-eeb2c338bb41",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "b96c650c-70fd-4ce9-8aa4-c10f74f5e120_layer",
-                      "type": "video",
-                      "mediaDataId": "b96c650c-70fd-4ce9-8aa4-c10f74f5e120",
-                      "subtitlesOffset": 0,
-                      "startTime": 40.79999999999999,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "b96c650c-70fd-4ce9-8aa4-c10f74f5e120_layer",
-                          "mediaDataId": "b96c650c-70fd-4ce9-8aa4-c10f74f5e120",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "34d839c7-4958-4cb8-a7de-1d861ad33b61_layer",
-                      "type": "video",
-                      "mediaDataId": "34d839c7-4958-4cb8-a7de-1d861ad33b61",
-                      "subtitlesOffset": 0,
-                      "startTime": 44.19999999999999,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "34d839c7-4958-4cb8-a7de-1d861ad33b61_layer",
-                          "mediaDataId": "34d839c7-4958-4cb8-a7de-1d861ad33b61",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "5b770d8c-7cd1-46af-b597-af24283cb21b_layer",
-                      "type": "video",
-                      "mediaDataId": "5b770d8c-7cd1-46af-b597-af24283cb21b",
-                      "subtitlesOffset": 0,
-                      "startTime": 47.59999999999999,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "5b770d8c-7cd1-46af-b597-af24283cb21b_layer",
-                          "mediaDataId": "5b770d8c-7cd1-46af-b597-af24283cb21b",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }, {
-                      "id": "a43ecce0-b104-4bfa-b2aa-571712224622_layer",
-                      "type": "video",
-                      "mediaDataId": "a43ecce0-b104-4bfa-b2aa-571712224622",
-                      "subtitlesOffset": 0,
-                      "startTime": 50.999999999999986,
-                      "duration": 6,
-                      "leftTrim": 0,
-                      "rightTrim": 2.6,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "style": {
-                          "clipId": "a43ecce0-b104-4bfa-b2aa-571712224622_layer",
-                          "mediaDataId": "a43ecce0-b104-4bfa-b2aa-571712224622",
-                          "alpha": 1,
-                          "rotation": 0,
-                          "position": [960, 540],
-                          "scale": [1, 1],
-                          "zIndex": 0,
-                          "width": 1920,
-                          "height": 1080,
-                          "cornerRadius": [0, 0, 0, 0],
-                          "relativeCornerRadius": false
-                      },
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }
-              ]
-          }, {
-              "id": "8ba9a4a1-23d0-4530-86a8-a9f104e06eb5",
-              "visible": true,
-              "muted": false,
-              "volume": 1,
-              "clips": [{
-                      "id": "a8c719d3-9588-4780-af41-c562c6c08c04",
-                      "type": "audio",
-                      "mediaDataId": "music_media",
-                      "subtitlesOffset": 0,
-                      "startTime": 0,
-                      "duration": 103.649,
-                      "leftTrim": 0,
-                      "rightTrim": 49.249,
-                      "filters": [],
-                      "effects": [],
-                      "warpMode": "empty",
-                      "animationController": {
-                          "loopSmoothing": 0
-                      },
-                      "volume": 1,
-                      "muted": false
-                  }
-              ],
-              "transitions": []
-          }
-      ],
-      "fitDuration": 54.4
+    },
+    "settings": {
+      "decoderPreferredAcceleration": "prefer-hardware",
+      "encoderPreferredAcceleration": "prefer-hardware",
+      "m3u8MaxResolution": [1920, 1080],
+      "showRenderPreview": true
+    }
   }
-}
+  
