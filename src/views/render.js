@@ -1,12 +1,58 @@
 const config = require("../config");
 
-function simplifyData(data) {
+function simplifyData(data, from, to, exportType, excludeClipTypes) {
 	// Duplicate data
 	const newData = JSON.parse(JSON.stringify(data));
+	excludeClipTypes = excludeClipTypes || [];
+
+	const mediaIdToKeep = [];
+	const clipIdsToRemove = [];
+
+	newData.timeline.layers.forEach((layer) => {
+		// We need to process transitions as they add padding to the clip segment and content needs to be rendered!
+		const clipRightPadding = new Map();
+		const clipLeftPadding = new Map();
+		layer.transitions.forEach((transition) => {
+			clipLeftPadding.set(transition.endClipId, transition.inDuration);
+			clipRightPadding.set(transition.startClipId, transition.outDuration);
+		});
+
+		layer.clips.forEach((clip) => {
+			const leftPadding = clipLeftPadding.get(clip.id) || 0;
+			const rightPadding = clipRightPadding.get(clip.id) || 0;
+			const leftRenderBounds = clip.startTime + clip.leftTrim - leftPadding;
+
+			if (clip.duration) {
+				const rightRenderBounds = clip.startTime + clip.duration - clip.rightTrim + rightPadding;
+
+				// We check the overlap here, not if it's inside! double check before trying to correct it wrongly asumming it's wrong!
+				if (leftRenderBounds <= to && rightRenderBounds >= from && !excludeClipTypes.includes(clip.type)) {
+					mediaIdToKeep.push(clip.mediaDataId);
+				} else {
+					clipIdsToRemove.push(clip.id);
+				}
+			} else {
+				// We don't know the duration so it might go over the segment
+				if (leftRenderBounds <= to && !excludeClipTypes.includes(clip.type)) {
+					mediaIdToKeep.push(clip.mediaDataId);
+				} else {
+					clipIdsToRemove.push(clip.id);
+				}
+			}
+		});
+	});
+
+	newData.timeline.layers.forEach((layer) => {
+		layer.clips = layer.clips.filter((clip) => !clipIdsToRemove.includes(clip.id));
+	});
+
+	newData.library.media = newData.library.media.filter((mediaData) => mediaIdToKeep.includes(mediaData.id));
+
 	return newData;
 }
 
-function getRenderView({ data, from, to, exportType }) {
+function getRenderView({ data, from, to, exportType, excludeClipTypes }) {
+	const updatedData = simplifyData(data, from, to, exportType, excludeClipTypes);
 	return `
 <html lang="en">
   <head>
@@ -39,9 +85,7 @@ function getRenderView({ data, from, to, exportType }) {
         }
       });
 
-      await Engine.deserialize(${JSON.stringify(simplifyData(data))});
-         
-
+      await Engine.deserialize(${JSON.stringify(updatedData)});
 
       engine.getSettings().setDecoderPreferredAcceleration("${config.rendering.preferredDecodingAcceleration}");
       

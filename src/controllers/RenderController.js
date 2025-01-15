@@ -12,10 +12,10 @@ async function renderVideo(expressApp, data) {
 
 	const chunksCount = Math.min(
 		config.rendering.maxCoresPerVideo,
-		Math.ceil(data.timeline.fitDuration / 10) // 1 minute per chunk
+		Math.ceil(data.timeline.fitDuration / 60) // 1 minute per chunk
 	);
 
-	const timeout = data.timeline.fitDuration * chunksCount * 1000000;
+	const timeout = data.timeline.fitDuration * chunksCount * 10000;
 
 	const fitDuration = data.timeline.fitDuration;
 	const chunkDuration = fitDuration / chunksCount;
@@ -29,16 +29,18 @@ async function renderVideo(expressApp, data) {
 		maxConcurrency: totalChunks + 1,
 		timeout,
 		puppeteerOptions: {
-			headless: false,
+			headless: true,
 			timeout,
 			protocolTimeout: timeout,
 			ignoreHTTPSErrors: true,
-			args: ["--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
+			args: ["--use-gl=angle", "--use-angle=gl-egl", "--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
+			// \/ This bellow causes the browser player to break on Windows under D3D11, leaving for investigations
+			//args: ["--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
 		},
 	});
 
 	await cluster.task(async ({ page, data: payload }) => {
-		const { from, to, index, exportType } = payload;
+		const { from, to, index, exportType, excludeClipTypes } = payload;
 
 		console.log(`[CLUSTER ${index}] Rendering ${from} to ${to}`);
 
@@ -46,7 +48,7 @@ async function renderVideo(expressApp, data) {
 
 		expressApp.get(`/renderer/${randomId}/${index}`, (req, res) => {
 			res.setHeader("Content-Type", "text/html");
-			res.send(RenderView({ data, from, to, exportType }));
+			res.send(RenderView({ data, from, to, exportType, excludeClipTypes }));
 		});
 
 		let buffer = null;
@@ -112,7 +114,7 @@ async function renderVideo(expressApp, data) {
 			return await window.exportVideo();
 		});
 
-		await new Promise((resolve) => setTimeout(resolve, 2000000));
+		//await new Promise((resolve) => setTimeout(resolve, 2000000));
 
 		if (!result) {
 			if (exportType === "audio_only") {
@@ -138,7 +140,7 @@ async function renderVideo(expressApp, data) {
 		const from = i * chunkDuration;
 		const to = Math.min(from + chunkDuration, fitDuration);
 
-		cluster.queue({ from, to, index: i, exportType: "video_only" });
+		cluster.queue({ from, to, index: i, exportType: "video_only", excludeClipTypes: ["audio"] });
 	}
 
 	cluster.queue({
@@ -146,13 +148,14 @@ async function renderVideo(expressApp, data) {
 		to: fitDuration,
 		index: totalChunks,
 		exportType: "audio_only",
+		excludeClipTypes: ["video"],
 	});
 
 	let finalVideoPath;
 
 	try {
 		await cluster.idle();
-		await new Promise((resolve) => setTimeout(resolve, 2000000));
+		//await new Promise((resolve) => setTimeout(resolve, 2000000));
 		await cluster.close();
 
 		finalVideoPath = await mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio);
