@@ -140,7 +140,7 @@ async function renderVideo(expressApp, data) {
 		const from = i * chunkDuration;
 		const to = Math.min(from + chunkDuration, fitDuration);
 
-		cluster.queue({ from, to, index: i, exportType: "video_only", excludeClipTypes: ["audio"] });
+		cluster.queue({ from, to, index: i, exportType: "video_only", excludeClipTypes: [] });
 	}
 
 	cluster.queue({
@@ -148,7 +148,7 @@ async function renderVideo(expressApp, data) {
 		to: fitDuration,
 		index: totalChunks,
 		exportType: "audio_only",
-		excludeClipTypes: ["video"],
+		excludeClipTypes: [],
 	});
 
 	let finalVideoPath;
