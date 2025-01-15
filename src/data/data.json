@@ -1,110 +1,109 @@
 {
-    "version": "0.1.1",
-    "projectId": "19c12e4a-2cb0-4b10-b549-1f58c76c0c9b",
-    "display": {
-      "width": 1920,
-      "height": 1080,
-      "backgroundColor": "#000000"
-    },
-    "timeline": {
-      "startTime": 0,
-      "fps": 30,
-      "layers": [
-        {
-          "id": "27e521fa-0f52-446a-9513-ae5c18c6960c",
-          "visible": true,
-          "muted": false,
-          "volume": 1,
-          "clips": [
-            {
-              "id": "aa7af51c-963d-4618-aa55-3cf6f152394b",
-              "type": "video",
-              "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
-              "subtitlesOffset": 0,
-              "startTime": 0,
-              "duration": 296.5,
-              "leftTrim": 0,
-              "rightTrim": 0,
-              "filters": [],
-              "effects": [],
-              "warpMode": "empty",
-              "style": {
-                "clipId": "aa7af51c-963d-4618-aa55-3cf6f152394b",
-                "mediaDataId": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
-                "alpha": 1,
-                "rotation": 0,
-                "position": [960, 540],
-                "scale": [1, 1],
-                "zIndex": 0,
-                "width": 1280,
-                "height": 720,
-                "cornerRadius": [0, 0, 0, 0],
-                "relativeCornerRadius": false
-              },
-              "animationController": {
-                "loopSmoothing": 0
-              },
-              "volume": 1,
-              "muted": false
-            }
-          ],
-          "transitions": []
-        }
-      ],
-      "fitDuration": 296.5
-    },
-    "library": {
-      "media": [
-        {
-          "id": "428c1bb3-c2ef-4437-a9b3-28c7162a8b5f",
-          "type": "video",
-          "filename": "BigBuckBunny_5min.mp4",
-          "hash": "5cf2ec5f463ba43034120454cb1ba12c88dcb008a86350a2be48faf664810997",
-          "mimeType": "video/mp4",
-          "permanentUrl": "http://localhost:3000/BigBuckBunny_5min.mp4"
-        }
-      ],
-      "subtitles": []
-    },
-    "subtitlesManager": {
-      "textMode": "full",
-      "highlightAnimation": "none",
-      "highlightAnimationSpeed": 1,
-      "mainTextStyle": {
-        "color": "#ffffff",
-        "fontSize": 50,
-        "fontWeight": "400",
-        "fontFamily": "Arial",
-        "fontStyle": "normal",
-        "backgroundColor": "transparent",
-        "backgroundPadding": 0,
-        "backgroundCornerRadius": 0,
-        "strokeThickness": 0,
-        "strokeColor": "#000000",
-        "padding": 0,
-        "wordWrapWidth": 1000,
-        "wordWrap": false,
-        "leading": 0
-      },
-      "highlightTextStyle": {
-        "color": "#ffffff",
-        "fontSize": 50,
-        "fontWeight": "400",
-        "fontFamily": "Arial",
-        "fontStyle": "normal",
-        "backgroundColor": "transparent",
-        "backgroundPadding": 0,
-        "backgroundCornerRadius": 0,
-        "strokeThickness": 0,
-        "strokeColor": "#000000",
-        "padding": 0
+  "version": "0.1.1",
+  "projectId": "314b22a4-a37b-4e81-a539-82389e2ed7d5",
+  "display": {
+    "width": 1920,
+    "height": 1080,
+    "backgroundColor": "#000000"
+  },
+  "timeline": {
+    "startTime": 0,
+    "fps": 30,
+    "layers": [
+      {
+        "id": "0e0dfee7-27bb-476f-8c02-0a7989279965",
+        "visible": true,
+        "muted": false,
+        "volume": 1,
+        "clips": [
+          {
+            "id": "37432c32-d41b-4833-a320-3cb00962a42a",
+            "type": "video",
+            "mediaDataId": "1b229e15-3082-4926-b23e-f8eec8543f41",
+            "subtitlesOffset": 0,
+            "startTime": 0,
+            "duration": 30.033333333333335,
+            "leftTrim": 0,
+            "rightTrim": 0,
+            "filters": [],
+            "effects": [],
+            "warpMode": "empty",
+            "style": {
+              "clipId": "37432c32-d41b-4833-a320-3cb00962a42a",
+              "mediaDataId": "1b229e15-3082-4926-b23e-f8eec8543f41",
+              "alpha": 1,
+              "rotation": 0,
+              "position": [960, 540],
+              "scale": [1, 1],
+              "zIndex": 0,
+              "width": 1280,
+              "height": 720,
+              "cornerRadius": [0, 0, 0, 0],
+              "relativeCornerRadius": false
+            },
+            "animationController": {
+              "loopSmoothing": 0
+            },
+            "volume": 1,
+            "muted": false
+          }
+        ],
+        "transitions": []
       }
+    ],
+    "fitDuration": 30.033333333333335
+  },
+  "library": {
+    "media": [
+      {
+        "id": "1b229e15-3082-4926-b23e-f8eec8543f41",
+        "type": "video",
+        "filename": "BigBuckBunny_30s.mp4",
+        "hash": "de51852376a12525cd5c116ae3b9650294b78ad269e994c995f18e7fc92d3eef",
+        "mimeType": "video/mp4",
+        "permanentUrl": "http://localhost:3000/BigBuckBunny_30s.mp4"
+      }
+    ],
+    "subtitles": []
+  },
+  "subtitlesManager": {
+    "textMode": "full",
+    "highlightAnimation": "none",
+    "highlightAnimationSpeed": 1,
+    "mainTextStyle": {
+      "color": "#ffffff",
+      "fontSize": 50,
+      "fontWeight": "400",
+      "fontFamily": "Arial",
+      "fontStyle": "normal",
+      "backgroundColor": "transparent",
+      "backgroundPadding": 0,
+      "backgroundCornerRadius": 0,
+      "strokeThickness": 0,
+      "strokeColor": "#000000",
+      "padding": 0,
+      "wordWrapWidth": 1000,
+      "wordWrap": false,
+      "leading": 0
     },
-    "settings": {
-      "decoderPreferredAcceleration": "prefer-hardware",
-      "encoderPreferredAcceleration": "prefer-hardware",
-      "m3u8MaxResolution": [1920, 1080],
-      "showRenderPreview": true
+    "highlightTextStyle": {
+      "color": "#ffffff",
+      "fontSize": 50,
+      "fontWeight": "400",
+      "fontFamily": "Arial",
+      "fontStyle": "normal",
+      "backgroundColor": "transparent",
+      "backgroundPadding": 0,
+      "backgroundCornerRadius": 0,
+      "strokeThickness": 0,
+      "strokeColor": "#000000",
+      "padding": 0
     }
+  },
+  "settings": {
+    "decoderPreferredAcceleration": "prefer-hardware",
+    "encoderPreferredAcceleration": "prefer-hardware",
+    "m3u8MaxResolution": [1920, 1080],
+    "showRenderPreview": true
   }
-  
+}

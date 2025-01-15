@@ -15,7 +15,7 @@ async function renderVideo(expressApp, data) {
 		Math.ceil(data.timeline.fitDuration / 60) // 1 minute per chunk
 	);
 
-	const timeout = data.timeline.fitDuration * chunksCount * 10000;
+	const timeout = data.timeline.fitDuration * chunksCount * 100000;
 
 	const fitDuration = data.timeline.fitDuration;
 	const chunkDuration = fitDuration / chunksCount;
@@ -29,11 +29,13 @@ async function renderVideo(expressApp, data) {
 		maxConcurrency: totalChunks + 1,
 		timeout,
 		puppeteerOptions: {
-			headless: true,
+			headless: false,
 			timeout,
 			protocolTimeout: timeout,
 			ignoreHTTPSErrors: true,
-			args: ["--use-gl=angle", "--use-angle=gl-egl", "--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
+			args: ["--use-gl=swiftshader", "--enable-webgl", "--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-gpu", "--disable-accelerated-2d-canvas"],
+			// \/ This uses GPU rendering
+			//args: ["--use-gl=angle", "--use-angle=gl-egl", "--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
 			// \/ This bellow causes the browser player to break on Windows under D3D11, leaving for investigations
 			//args: ["--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
 		},

@@ -92,23 +92,28 @@ function getRenderView({ data, from, to, exportType, excludeClipTypes }) {
       engine.getSettings().setEncoderPreferredAcceleration("${config.rendering.preferredEncodingAcceleration}"); 
 
       window.exportVideo = async () => {
-        const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
-     
-        if (exportResult !== null)
-        {
-          const buffer = await exportResult.blob.arrayBuffer();
-          
-          const buffer_size = ${config.rendering.chunkPartialBufferSize};
+        try {
+          const exportResult = await engine.export({ from: ${from}, to: ${to}, type: "${exportType}" });
+      
+          if (exportResult !== null)
+          {
+            const buffer = await exportResult.blob.arrayBuffer();
+            
+            const buffer_size = ${config.rendering.chunkPartialBufferSize};
 
-          window.prepareBuffer?.(buffer.byteLength);
+            window.prepareBuffer?.(buffer.byteLength);
 
-          for (let i = 0; i < buffer.byteLength; i += buffer_size) {
-            const chunk = buffer.slice(i, i + buffer_size);
-            await window.feedBuffer?.(Array.from(new Uint8Array(chunk))); 
+            for (let i = 0; i < buffer.byteLength; i += buffer_size) {
+              const chunk = buffer.slice(i, i + buffer_size);
+              await window.feedBuffer?.(Array.from(new Uint8Array(chunk))); 
+            }
+
+            return true;
+          } else {
+            return false;
           }
-
-          return true;
-        } else {
+        } catch (err) {
+          console.error("[ERROR] Failed to export video", err);
           return false;
         }
       };
