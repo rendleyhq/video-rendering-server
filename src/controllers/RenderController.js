@@ -7,8 +7,21 @@ const { Cluster } = require("puppeteer-cluster");
 const RenderView = require("../views/render");
 const config = require("../config");
 
+function getVideoExtensionsFromData(data) {
+	if (data.settings.encoderCodec) {
+		if (data.settings.encoderCodec === "vp9" || data.settings.encoderCodec === "vp8") {
+			return ["webm", "ogg"];
+		} else {
+			return ["mp4", "aac"];
+		}
+	} else {
+		return ["mp4", "aac"];
+	}
+}
+
 async function renderVideo(expressApp, data) {
 	const randomId = crypto.randomUUID();
+	const extensions = getVideoExtensionsFromData(data);
 
 	const chunksCount = Math.min(
 		config.rendering.maxCoresPerVideo,
@@ -125,7 +138,7 @@ async function renderVideo(expressApp, data) {
 
 		console.log(`[CLUSTER ${index}] End rendering chunk`, `(Took: ${(performance.now() - start) / 1000})`);
 
-		const extension = exportType === "audio_only" ? "aac" : "mp4";
+		const extension = exportType === "audio_only" ? extensions[1] : extensions[0];
 
 		const storedPath = path.join(getTempDir(randomId), `${index}.${extension}`);
 
@@ -158,7 +171,7 @@ async function renderVideo(expressApp, data) {
 		//await new Promise((resolve) => setTimeout(resolve, 2000000));
 		await cluster.close();
 
-		finalVideoPath = await mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio);
+		finalVideoPath = await mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio, extensions);
 	} catch (error) {
 		console.log("ERROR", error);
 	} finally {
@@ -166,13 +179,12 @@ async function renderVideo(expressApp, data) {
 	}
 
 	console.log(`[RENDER DONE] Final video path: ${finalVideoPath}`);
-
-	return `/videos/${randomId}.mp4`;
+	return `/videos/${randomId}.${extensions[0]}`;
 }
 
-function mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio) {
+function mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio, extensions) {
 	return new Promise(async (resolve, reject) => {
-		const outputFilePath = getOutputPath(randomId);
+		const outputFilePath = getOutputPath(randomId, extensions);
 
 		const tempChunksInputFile = path.join(getTempDir(randomId), `input_chunks.txt`);
 
@@ -191,7 +203,8 @@ function mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio)
 		// using fitDuration to trim the mixed audio - not necessary if the whole video is being rendered
 		let ffmpegCmd;
 		if (audioChunk) {
-			ffmpegCmd = `ffmpeg -f concat -safe 0 -i ${tempChunksInputFile} -ss 00:00:00 -t ${fitDuration} -i ${audioChunk}  -c:v copy -c:a aac -map 0:v:0 -map 1:a:0 ${outputFilePath}`;
+			const audioCodec = extensions[1] === "aac" ? "aac" : "libvorbis";
+			ffmpegCmd = `ffmpeg -f concat -safe 0 -i ${tempChunksInputFile} -ss 00:00:00 -t ${fitDuration} -i ${audioChunk}  -c:v copy -c:a ${audioCodec} -map 0:v:0 -map 1:a:0 ${outputFilePath}`;
 		} else {
 			ffmpegCmd = `ffmpeg -f concat -safe 0 -i ${tempChunksInputFile} -c:v copy -map 0:v:0 ${outputFilePath}`;
 		}
@@ -211,8 +224,8 @@ function getTempDir(id) {
 	return path.join(__dirname, `../../temp/${id}`);
 }
 
-function getOutputPath(id) {
-	return path.join(__dirname, `../../videos/${id}.mp4`);
+function getOutputPath(id, extensions) {
+	return path.join(__dirname, `../../videos/${id}.${extensions[0]}`);
 }
 
 async function storeToFS(absolutePath, file) {
