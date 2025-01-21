@@ -3,9 +3,28 @@ const path = require("path");
 const crypto = require("crypto");
 const { exec } = require("child_process");
 const { Cluster } = require("puppeteer-cluster");
+const fsSync = require("fs");
 
 const RenderView = require("../views/render");
 const config = require("../config");
+
+if (config.logging.logMode === config.logMode.file || config.logging.logMode === config.logMode.both) {
+	if (!fsSync.existsSync("logs")) {
+		fsSync.mkdirSync("logs");
+	}
+}
+
+process.on("exit", () => {
+	console.log("\x1b[0m"); // Reset all colors
+});
+
+process.on("SIGINT", () => {
+	process.exit();
+});
+
+process.on("SIGTERM", () => {
+	process.exit();
+});
 
 function getVideoExtensionsFromData(data) {
 	if (data.settings.encoderCodec) {
@@ -46,7 +65,28 @@ async function renderVideo(expressApp, data) {
 			timeout,
 			protocolTimeout: timeout,
 			ignoreHTTPSErrors: true,
-			args: ["--use-gl=angle", "--use-angle=gl-egl", "--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
+			args: [
+				"--use-gl=angle",
+				"--use-angle=gl-egl",
+				"--ignore-certificate-errors",
+				"--ignore-certificate-errors-spki-list",
+				"--no-sandbox",
+				"--disable-dev-shm-usage",
+				`--max-old-space-size=${config.rendering.maxRamPerVideo}`,
+				`--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`,
+				"--disable-setuid-sandbox",
+				"--ignore-gpu-blacklist",
+				"--enable-webgl",
+				"--enable-webcodecs",
+				"--force-high-performance-gpu",
+				"--enable-accelerated-video-decode",
+				"--disable-background-timer-throttling",
+				"--disable-renderer-backgrounding",
+				"--disable-backgrounding-occluded-windows",
+				"--disable-software-rasterizer",
+				"--disable-gpu-vsync",
+				"--enable-oop-rasterization",
+			],
 			// \/ This bellow causes the browser player to break on Windows under D3D11, leaving for investigations
 			//args: ["--ignore-certificate-errors", "--ignore-certificate-errors-spki-list", "--no-sandbox", "--disable-dev-shm-usage", `--max-old-space-size=${config.rendering.maxRamPerVideo}`, `--force-gpu-mem-available-mb=${config.rendering.maxGpuPerVideo}`, "--disable-setuid-sandbox", "--ignore-gpu-blacklist", "--enable-webgl", "--enable-webcodecs", "--force-high-performance-gpu", "--enable-accelerated-video-decode", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows", "--disable-software-rasterizer", "--disable-gpu-vsync", "--enable-oop-rasterization"],
 		},
@@ -67,43 +107,136 @@ async function renderVideo(expressApp, data) {
 		let buffer = null;
 		let cursor = 0;
 
-		page.on("console", async (msg) => {
-			const text = msg.text();
-			if (text.includes("ERROR")) {
-				console.error(`CLUSTER ${index} LOG:`, text);
-				if (msg.args().length > 0) {
-					const logEntries = [`PAGE LOG: ${msg.type()}`];
+		const queuedText = [];
+		let outputCounter = 0;
+		let stream;
+		if (config.logging.logMode === config.logMode.file || config.logging.logMode === config.logMode.both) {
+			stream = fsSync.createWriteStream(`logs/${randomId}-${index}.log`, { flags: "w" });
+		}
 
-					for (let i = 0; i < msg.args().length; i++) {
-						try {
-							const arg = msg.args()[i];
-							const value = await arg.jsonValue();
-							logEntries.push(`  Argument ${i}: ${JSON.stringify(value, null, 2)}`);
-						} catch (err) {
-							// If jsonValue() fails, fallback to evaluate()
-							try {
-								const arg = msg.args()[i];
-								const fallbackValue = await arg.evaluate((obj) => {
-									// Convert object to a string in the browser context
-									return obj instanceof Node
-										? obj.outerHTML // For DOM elements
-										: obj.toString();
-								});
-								logEntries.push(`  Argument ${i}: ${fallbackValue}`);
-							} catch (fallbackErr) {
-								logEntries.push(`  Argument ${i}: [Unserializable]`);
-							}
-						}
-					}
-
-					// Join log entries and write to console
-					const logMessage = logEntries.join("\n");
-					if (msg.type() == "error") {
-						console.log(logMessage);
+		const ANSI_REGEX = /\x1b\[[0-9;]*m/g;
+		const logOutput = (args) => {
+			if (config.logging.logMode === config.logMode.console || config.logging.logMode === config.logMode.both) {
+				console.log(...args);
+			}
+			if (config.logging.logMode === config.logMode.file || config.logging.logMode === config.logMode.both) {
+				stream.write(
+					args
+						.map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg))
+						.join(" ")
+						.replace(ANSI_REGEX, "") + "\n"
+				);
+			}
+		};
+		const flushQueuedText = () => {
+			if (queuedText.length > 0) {
+				let removeAt = -1;
+				for (let i = 0; i < queuedText.length; i++) {
+					if (queuedText[i].queueIndex <= outputCounter) {
+						logOutput(queuedText[i].args);
+						removeAt = i;
 					}
 				}
+				if (removeAt > -1) {
+					queuedText.splice(0, removeAt + 1);
+				}
 			}
-			//console.log("PAGE LOG:", text)
+		};
+		const tryOutputText = (counter, args) => {
+			flushQueuedText();
+			if (counter <= outputCounter) {
+				logOutput(args);
+			} else {
+				queuedText.push({ queueIndex: counter, args });
+			}
+		};
+
+		page.on("console", async (msg) => {
+			const localCounter = ++outputCounter;
+			const logArgs = [];
+			logArgs.push(`\x1b[1mCLUSTER ${index} \x1b[22m`);
+			if (msg.args().length > 0) {
+				let skipSecond = false;
+				for (let i = 0; i < msg.args().length; i++) {
+					if (skipSecond && i == 1) continue;
+					try {
+						const arg = msg.args()[i];
+						const txt = await arg.jsonValue();
+						if (i == 0 && txt.startsWith("%c")) {
+							skipSecond = true;
+							if (txt.startsWith("%c[WARN]")) {
+								if (config.logging.consoleLogLevel < config.logLevel.warn) {
+									return;
+								}
+
+								logArgs[0] = "\x1b[33m" + logArgs[0];
+								logArgs.push("\x1b[1m[WARN]: \x1b[22m");
+							} else if (txt.startsWith("%c[ERROR]")) {
+								if (config.logging.consoleLogLevel < config.logLevel.error) {
+									return;
+								}
+
+								logArgs[0] = "\x1b[31m" + logArgs[0];
+								logArgs.push("\x1b[1m[ERROR]: \x1b[22m");
+							} else {
+								if (config.logging.consoleLogLevel < config.logLevel.info) {
+									return;
+								}
+
+								logArgs[0] = "\x1b[37m" + logArgs[0];
+								logArgs.push("\x1b[1m[INFO]: \x1b[22m");
+							}
+						} else {
+							if (typeof txt === "object") {
+								logArgs.push("\x1b[0m"); // Reset the colors if we're pushing an object as it will mess the other colors from console.log formating
+							}
+							logArgs.push(txt);
+						}
+					} catch (err) {
+						// If jsonValue() fails, fallback to evaluate()
+						try {
+							const arg = msg.args()[i];
+							const txt = await arg.evaluate((obj) => {
+								// Convert object to a string in the browser context
+								return obj instanceof Node
+									? obj.outerHTML // For DOM elements
+									: obj.toString();
+							});
+							if (i == 0 && txt.startsWith("%c")) {
+								skipSecond = true;
+								if (txt.startsWith("%c[WARN]")) {
+									if (config.logging.consoleLogLevel < config.logLevel.warn) {
+										return;
+									}
+
+									logArgs[0] = "\x1b[33m" + logArgs[0];
+									logArgs.push("\x1b[1m[WARN]: \x1b[22m");
+								} else if (txt.startsWith("%c[ERROR]")) {
+									if (config.logging.consoleLogLevel < config.logLevel.error) {
+										return;
+									}
+
+									logArgs[0] = "\x1b[31m" + logArgs[0];
+									logArgs.push("\x1b[1m[ERROR]: \x1b[22m");
+								} else {
+									if (config.logging.consoleLogLevel < config.logLevel.info) {
+										return;
+									}
+
+									logArgs[0] = "\x1b[37m" + logArgs[0];
+									logArgs.push("\x1b[1m[INFO]: \x1b[22m");
+								}
+							} else {
+								logArgs.push(txt);
+							}
+						} catch (e) {
+							logArgs.push("[Unserializable]");
+						}
+					}
+				}
+
+				tryOutputText(localCounter, logArgs);
+			}
 		});
 
 		const pageUrl = `http://localhost:${config.port}/renderer/${randomId}/${index}`;
@@ -128,6 +261,10 @@ async function renderVideo(expressApp, data) {
 		});
 
 		//await new Promise((resolve) => setTimeout(resolve, 2000000));
+
+		if (stream) {
+			stream.end();
+		}
 
 		if (!result) {
 			if (exportType === "audio_only") {
@@ -173,7 +310,7 @@ async function renderVideo(expressApp, data) {
 
 		finalVideoPath = await mergeFinalVideoFromChunks(randomId, chunksPaths, fitDuration, hasAudio, extensions);
 	} catch (error) {
-		console.log("ERROR", error);
+		console.log("[ERROR]", error);
 	} finally {
 		await deleteFromFS(getTempDir(randomId));
 	}

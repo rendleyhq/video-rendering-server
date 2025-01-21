@@ -1,5 +1,6 @@
 /temp
 videos/
+logs/
 node_modules/
 .env
 
