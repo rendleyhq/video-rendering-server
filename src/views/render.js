@@ -51,6 +51,120 @@ function simplifyData(data, from, to, exportType, excludeClipTypes) {
 	return newData;
 }
 
+const librarySetupScript = `
+const handleSetupLibrary = async (data) => {
+    if (!postInit) return; // This is called on init, we don't need that, we want it on deserialize!
+  console.error("Called handleSetupLibrary");
+    const filtersRoot = '${config.assetsPathCDN}/filters/';
+    const effectsRoot = '${config.assetsPathCDN}/effects_v2/';
+    const transitionsRoot = '${config.assetsPathCDN}/transitions/';
+
+    // Get transition descriptions
+    const transitions = await fetch(transitionsRoot + "transitions.json")
+        .then((data) => data.json())
+        .then((data) => {
+            const transitions = data.transitions.map((transition) => {
+                return {
+                    id: transition.id,
+                    label: transition.name,
+                    thumbnailUrl: transitionsRoot + transition.path + "thumbnail.webp",
+                    videoPreviewUrl: transitionsRoot + transition.path + "preview.mp4",
+                    shaderUrl: transitionsRoot + transition.path + "shader.glsl",
+                    properties: transition.properties,
+                };
+            });
+
+            return transitions;
+        }).catch((error) => {
+          console.error("Failed to fetch transitions!", error);
+          return [];
+        });
+
+    // Get filter list
+    const filters = await fetch(filtersRoot + "filters.json")
+        .then((data) => data.json())
+        .then((data) => {
+            const filters = data.filters.map((filter) => {
+                return {
+                    id: filter.id,
+                    label: filter.name,
+                    thumbnailUrl: filtersRoot + filter.path + "thumbnail.webp",
+                    lutUrl: filtersRoot + filter.path + "lut.png",
+                };
+            });
+
+            return filters;
+        }).catch((error) => {
+          console.error("Failed to fetch filters!", error);
+          return [];
+        });
+
+    // Get Effect list
+    const effects = await fetch(effectsRoot + "effects.json")
+        .then((data) => data.json())
+        .then((data) => {
+            const effects = data.effects.map((effect) => {
+                return {
+                    id: effect.id,
+                    label: effect.name,
+                    thumbnailUrl: effectsRoot + effect.path + "thumbnail.webp",
+                    videoPreviewUrl: effectsRoot + effect.path + "preview.mp4",
+                    shaderUrl: effectsRoot + effect.path + "shader.glsl",
+                    properties: effect.properties ?? [], // ?? for backward compatibility as properties didn't exist in previous json
+                };
+            });
+
+            return effects;
+        }).catch((error) => {
+          console.error("Failed to fetch effects!", error);
+          return [];
+        });
+
+    for (const effect of effects) {
+        if (effect && effect.shaderUrl) {
+            const fragmentSrc = await fetch(effect.shaderUrl).then((data) => data.text());
+
+            await Engine.getInstance()
+            .getLibrary()
+            .addEffect({
+                id: effect.id,
+                name: effect.label,
+                fragmentSrc,
+                serializable: false,
+                properties: effect.properties,
+            });
+        }
+    }
+
+    for (const filter of filters) {
+        if (filter) {
+            await Engine.getInstance().getLibrary().addFilter({
+                id: filter.id,
+                name: filter.label,
+                lutUrl: filter.lutUrl,
+                serializable: false,
+            });
+        }
+    }
+
+    for (const transition of transitions) {
+        if (transition) {
+            const shaderSrc = await fetch(transition.shaderUrl).then((data) => data.text());
+
+            await Engine.getInstance()
+            .getLibrary()
+            .addTransition({
+                id: transition.id,
+                name: transition.label,
+                transitionSrc: shaderSrc,
+                serializable: false,
+                properties: transition.properties,
+            });
+        }
+    }
+}
+`;
+
 function getRenderView({ data, from, to, exportType, excludeClipTypes }) {
 	const updatedData = simplifyData(data, from, to, exportType, excludeClipTypes);
 	return `
@@ -72,8 +186,13 @@ function getRenderView({ data, from, to, exportType, excludeClipTypes }) {
       if (!renderer) {
           throw new Error("Renderer canvas not found");
       }
-     
+      
+      let postInit = false;
+
+      ${librarySetupScript}
+
       const engine = Engine.getInstance();
+      window.engine = engine;
 
       await engine.init({
         license: {
@@ -82,8 +201,11 @@ function getRenderView({ data, from, to, exportType, excludeClipTypes }) {
         },
         display: {
           view: renderer,
-        }
+        },
+        onSetupLibrary: handleSetupLibrary
       });
+
+      postInit = true;
 
       await Engine.deserialize(${JSON.stringify(updatedData)});
 

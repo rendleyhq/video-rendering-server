@@ -5,6 +5,8 @@ const { Cluster } = require("puppeteer-cluster");
 const OS_CORES = os.cpus().length;
 const OS_RAM = os.totalmem();
 
+const ASSETS_PATH_CDN = "https://cdn.rendleysdk.com/sdk/assets";
+
 dotenv.config();
 
 const concurrencyMode = {
@@ -48,4 +50,5 @@ module.exports = {
 	},
 	logMode,
 	logLevel,
+	assetsPathCDN: ASSETS_PATH_CDN,
 };

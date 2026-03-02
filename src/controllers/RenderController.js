@@ -44,7 +44,7 @@ async function renderVideo(expressApp, data) {
 
 	const chunksCount = Math.min(
 		config.rendering.maxCoresPerVideo,
-		Math.ceil(data.timeline.fitDuration / 60) // 1 minute per chunk
+		Math.ceil(data.timeline.fitDuration / 60), // 1 minute per chunk
 	);
 
 	const timeout = data.timeline.fitDuration * chunksCount * 10000;
@@ -124,7 +124,7 @@ async function renderVideo(expressApp, data) {
 					args
 						.map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg))
 						.join(" ")
-						.replace(ANSI_REGEX, "") + "\n"
+						.replace(ANSI_REGEX, "") + "\n",
 				);
 			}
 		};
